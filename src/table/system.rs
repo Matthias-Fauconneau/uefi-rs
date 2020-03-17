@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 use super::boot::{BootServices, MemoryMapIter};
 use super::runtime::RuntimeServices;
 use super::{cfg, Header, Revision};
@@ -40,7 +41,7 @@ impl SystemTableView for Runtime {}
 /// will be provided to replace it.
 #[repr(transparent)]
 pub struct SystemTable<View: SystemTableView> {
-    table: &'static SystemTableImpl,
+    table: &'static SystemTableImpl<'static, 'static>,
     _marker: PhantomData<View>,
 }
 
@@ -74,18 +75,18 @@ impl<View: SystemTableView> SystemTable<View> {
 #[allow(clippy::mut_from_ref)]
 impl SystemTable<Boot> {
     /// Returns the standard input protocol.
-    pub fn stdin(&self) -> &mut text::Input {
-        unsafe { &mut *self.table.stdin }
+    pub fn stdin(&self) -> &text::Input {
+        self.table.stdin
     }
 
     /// Returns the standard output protocol.
-    pub fn stdout(&self) -> &mut text::Output {
+    pub fn stdout(&self) -> &text::Output {
         let stdout_ptr = self.table.stdout as *const _ as *mut _;
         unsafe { &mut *stdout_ptr }
     }
 
     /// Returns the standard error protocol.
-    pub fn stderr(&self) -> &mut text::Output {
+    pub fn stderr(&self) -> &text::Output {
         let stderr_ptr = self.table.stderr as *const _ as *mut _;
         unsafe { &mut *stderr_ptr }
     }
@@ -97,7 +98,7 @@ impl SystemTable<Boot> {
 
     /// Access boot services
     pub fn boot_services(&self) -> &BootServices {
-        unsafe { &*self.table.boot }
+        self.table.boot
     }
 
     /// Exit the UEFI boot services
@@ -201,22 +202,22 @@ impl SystemTable<Runtime> {
 
 /// The actual UEFI system table
 #[repr(C)]
-pub struct SystemTableImpl {
+pub struct SystemTableImpl<'boot, 'runtime> {
     pub header: Header,
     /// Null-terminated string representing the firmware's vendor.
     pub fw_vendor: *const Char16,
     /// Revision of the UEFI specification the firmware conforms to.
     pub fw_revision: Revision,
     pub stdin_handle: Handle,
-    pub stdin: *mut text::Input,
+    pub stdin: &'boot text::Input,
     pub stdout_handle: Handle,
-    pub stdout: *mut text::Output<'static>,
+    pub stdout: &'boot text::Output<'boot>,
     pub stderr_handle: Handle,
-    pub stderr: *mut text::Output<'static>,
+    pub stderr: &'boot text::Output<'boot>,
     /// Runtime services table.
-    pub runtime: &'static RuntimeServices,
+    pub runtime: &'runtime RuntimeServices,
     /// Boot services table.
-    pub boot: *const BootServices,
+    pub boot: &'boot BootServices,
     /// Number of entires in the configuration table.
     pub nr_cfg: usize,
     /// Pointer to beginning of the array.

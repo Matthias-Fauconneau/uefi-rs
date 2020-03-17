@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 use crate::proto::Protocol;
 use crate::{unsafe_guid, Char16, Event, Result, Status};
 use core::mem::MaybeUninit;

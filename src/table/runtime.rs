@@ -1,5 +1,5 @@
 //! UEFI services available at runtime, even after the OS boots.
-
+#![allow(missing_docs)]
 use super::Header;
 use crate::table::boot::MemoryDescriptor;
 use crate::{Result, Status};

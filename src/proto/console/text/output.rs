@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 use crate::prelude::*;
 use crate::proto::Protocol;
 use crate::{unsafe_guid, CStr16, Char16, Completion, Result, Status};

@@ -1,5 +1,5 @@
 //! UEFI services available during boot.
-
+#![allow(missing_docs)]
 use super::Header;
 use crate::data_types::Align;
 use crate::proto::Protocol;
