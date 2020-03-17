@@ -15,79 +15,79 @@ use core::ptr;
 /// Contains pointers to all of the boot services.
 #[repr(C)]
 pub struct BootServices {
-    header: Header,
+    pub header: Header,
 
     // Task Priority services
-    raise_tpl: unsafe extern "efiapi" fn(new_tpl: Tpl) -> Tpl,
-    restore_tpl: unsafe extern "efiapi" fn(old_tpl: Tpl),
+    pub raise_tpl: unsafe extern "efiapi" fn(new_tpl: Tpl) -> Tpl,
+    pub restore_tpl: unsafe extern "efiapi" fn(old_tpl: Tpl),
 
     // Memory allocation functions
-    allocate_pages: extern "efiapi" fn(
+    pub allocate_pages: extern "efiapi" fn(
         alloc_ty: u32,
         mem_ty: MemoryType,
         count: usize,
         addr: &mut u64,
     ) -> Status,
-    free_pages: extern "efiapi" fn(addr: u64, pages: usize) -> Status,
-    get_memory_map: unsafe extern "efiapi" fn(
+    pub free_pages: extern "efiapi" fn(addr: u64, pages: usize) -> Status,
+    pub get_memory_map: unsafe extern "efiapi" fn(
         size: &mut usize,
         map: *mut MemoryDescriptor,
         key: &mut MemoryMapKey,
         desc_size: &mut usize,
         desc_version: &mut u32,
     ) -> Status,
-    allocate_pool:
+    pub allocate_pool:
         extern "efiapi" fn(pool_type: MemoryType, size: usize, buffer: &mut *mut u8) -> Status,
-    free_pool: extern "efiapi" fn(buffer: *mut u8) -> Status,
+    pub free_pool: extern "efiapi" fn(buffer: *mut u8) -> Status,
 
     // Event & timer functions
-    create_event: unsafe extern "efiapi" fn(
+    pub create_event: unsafe extern "efiapi" fn(
         ty: EventType,
         notify_tpl: Tpl,
         notify_func: Option<EventNotifyFn>,
         notify_ctx: *mut c_void,
         event: *mut Event,
     ) -> Status,
-    set_timer: unsafe extern "efiapi" fn(event: Event, ty: u32, trigger_time: u64) -> Status,
-    wait_for_event: unsafe extern "efiapi" fn(
+    pub set_timer: unsafe extern "efiapi" fn(event: Event, ty: u32, trigger_time: u64) -> Status,
+    pub wait_for_event: unsafe extern "efiapi" fn(
         number_of_events: usize,
         events: *mut Event,
         out_index: *mut usize,
     ) -> Status,
-    signal_event: usize,
-    close_event: usize,
-    check_event: usize,
+    pub signal_event: usize,
+    pub close_event: usize,
+    pub check_event: usize,
 
     // Protocol handlers
-    install_protocol_interface: usize,
-    reinstall_protocol_interface: usize,
-    uninstall_protocol_interface: usize,
-    handle_protocol:
+    pub install_protocol_interface: usize,
+    pub reinstall_protocol_interface: usize,
+    pub uninstall_protocol_interface: usize,
+    pub handle_protocol:
         extern "efiapi" fn(handle: Handle, proto: &Guid, out_proto: &mut *mut c_void) -> Status,
-    _reserved: usize,
-    register_protocol_notify: usize,
-    locate_handle: unsafe extern "efiapi" fn(
+    pub _reserved: usize,
+    pub register_protocol_notify: usize,
+    pub locate_handle: unsafe extern "efiapi" fn(
         search_ty: i32,
         proto: *const Guid,
         key: *mut c_void,
         buf_sz: &mut usize,
         buf: *mut Handle,
     ) -> Status,
-    locate_device_path: usize,
-    install_configuration_table: usize,
+    pub locate_device_path: usize,
+    pub install_configuration_table: usize,
 
     // Image services
-    load_image: usize,
-    start_image: usize,
-    exit: usize,
-    unload_image: usize,
-    exit_boot_services:
+    pub load_image: usize,
+    pub start_image: usize,
+    pub exit: usize,
+    pub unload_image: usize,
+    pub exit_boot_services:
         unsafe extern "efiapi" fn(image_handle: Handle, map_key: MemoryMapKey) -> Status,
 
     // Misc services
-    get_next_monotonic_count: usize,
-    stall: extern "efiapi" fn(microseconds: usize) -> Status,
-    set_watchdog_timer: unsafe extern "efiapi" fn(
+    pub get_next_monotonic_count: usize,
+    pub stall: extern "efiapi" fn(microseconds: usize) -> Status,
+    pub set_watchdog_timer: unsafe extern "efiapi" fn(
         timeout: usize,
         watchdog_code: u64,
         data_size: usize,
@@ -95,34 +95,34 @@ pub struct BootServices {
     ) -> Status,
 
     // Driver support services
-    connect_controller: usize,
-    disconnect_controller: usize,
+    pub connect_controller: usize,
+    pub disconnect_controller: usize,
 
     // Protocol open / close services
-    open_protocol: usize,
-    close_protocol: usize,
-    open_protocol_information: usize,
+    pub open_protocol: usize,
+    pub close_protocol: usize,
+    pub open_protocol_information: usize,
 
     // Library services
-    protocols_per_handle: usize,
-    locate_handle_buffer: usize,
-    locate_protocol: extern "efiapi" fn(
+    pub protocols_per_handle: usize,
+    pub locate_handle_buffer: usize,
+    pub locate_protocol: extern "efiapi" fn(
         proto: &Guid,
         registration: *mut c_void,
         out_proto: &mut *mut c_void,
     ) -> Status,
-    install_multiple_protocol_interfaces: usize,
-    uninstall_multiple_protocol_interfaces: usize,
+    pub install_multiple_protocol_interfaces: usize,
+    pub uninstall_multiple_protocol_interfaces: usize,
 
     // CRC services
-    calculate_crc32: usize,
+    pub calculate_crc32: usize,
 
     // Misc services
-    copy_mem: unsafe extern "efiapi" fn(dest: *mut u8, src: *const u8, len: usize),
-    set_mem: unsafe extern "efiapi" fn(buffer: *mut u8, len: usize, value: u8),
+    pub copy_mem: unsafe extern "efiapi" fn(dest: *mut u8, src: *const u8, len: usize),
+    pub set_mem: unsafe extern "efiapi" fn(buffer: *mut u8, len: usize, value: u8),
 
     // New event functions (UEFI 2.0 or newer)
-    create_event_ex: usize,
+    pub create_event_ex: usize,
 }
 
 impl BootServices {
@@ -814,7 +814,7 @@ bitflags! {
 }
 
 /// Raw event notification function
-type EventNotifyFn = unsafe extern "efiapi" fn(event: Event, context: *mut c_void);
+pub type EventNotifyFn = unsafe extern "efiapi" fn(event: Event, context: *mut c_void);
 
 /// Timer events manipulation
 pub enum TimerTrigger {

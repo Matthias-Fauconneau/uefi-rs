@@ -19,7 +19,7 @@ WORKSPACE_DIR = Path(__file__).resolve().parents[1]
 # Try changing these with command line flags, where possible
 SETTINGS = {
     # Print commands before running them.
-    'verbose': False,
+    'verbose': True,
     # Run QEMU without showing GUI
     'headless': False,
     # Target to build for.
@@ -30,7 +30,7 @@ SETTINGS = {
     'qemu_binary': 'qemu-system-x86_64',
     # Path to directory containing `OVMF_{CODE/VARS}.fd`.
     # `find_ovmf` function will try to find one if this isn't specified.
-    'ovmf_dir': None,
+    'ovmf_dir': Path('/usr/share/edk2-ovmf'),
 }
 
 # Path to target directory. If None, it will be initialized with information
@@ -167,7 +167,9 @@ def run_qemu():
         '-nodefaults',
 
         # Use a modern machine, with acceleration if possible.
-        '-machine', 'q35,accel=kvm:tcg',
+        '-machine', 'q35', #accel=kvm:tcg',
+
+	'--accel', 'tcg,thread=single',
 
         # Multi-processor services protocol test needs exactly 3 CPUs.
         '-smp', '3',

@@ -11,21 +11,21 @@ use core::fmt;
 #[unsafe_guid("387477c2-69c7-11d2-8e39-00a0c969723b")]
 #[derive(Protocol)]
 pub struct Output<'boot> {
-    reset: extern "efiapi" fn(this: &Output, extended: bool) -> Status,
-    output_string: unsafe extern "efiapi" fn(this: &Output, string: *const Char16) -> Status,
-    test_string: unsafe extern "efiapi" fn(this: &Output, string: *const Char16) -> Status,
-    query_mode: extern "efiapi" fn(
+    pub reset: extern "efiapi" fn(this: &Output, extended: bool) -> Status,
+    pub output_string: unsafe extern "efiapi" fn(this: &Output, string: *const Char16) -> Status,
+    pub test_string: unsafe extern "efiapi" fn(this: &Output, string: *const Char16) -> Status,
+    pub query_mode: extern "efiapi" fn(
         this: &Output,
         mode: usize,
         columns: &mut usize,
         rows: &mut usize,
     ) -> Status,
-    set_mode: extern "efiapi" fn(this: &mut Output, mode: usize) -> Status,
-    set_attribute: extern "efiapi" fn(this: &mut Output, attribute: usize) -> Status,
-    clear_screen: extern "efiapi" fn(this: &mut Output) -> Status,
-    set_cursor_position: extern "efiapi" fn(this: &mut Output, column: usize, row: usize) -> Status,
-    enable_cursor: extern "efiapi" fn(this: &mut Output, visible: bool) -> Status,
-    data: &'boot OutputData,
+    pub set_mode: extern "efiapi" fn(this: &mut Output, mode: usize) -> Status,
+    pub set_attribute: extern "efiapi" fn(this: &mut Output, attribute: usize) -> Status,
+    pub clear_screen: extern "efiapi" fn(this: &mut Output) -> Status,
+    pub set_cursor_position: extern "efiapi" fn(this: &mut Output, column: usize, row: usize) -> Status,
+    pub enable_cursor: extern "efiapi" fn(this: &mut Output, visible: bool) -> Status,
+    pub data: &'boot OutputData,
 }
 
 impl<'boot> Output<'boot> {
@@ -253,20 +253,20 @@ impl<'out, 'boot> Iterator for OutputModeIter<'out, 'boot> {
 /// Additional data of the output device.
 #[derive(Debug)]
 #[repr(C)]
-struct OutputData {
+pub struct OutputData {
     /// The number of modes supported by the device.
-    max_mode: i32,
+    pub max_mode: i32,
     /// The current output mode.
     /// Negative index -1 is used to notify that no valid mode is configured
-    mode: i32,
+    pub mode: i32,
     /// The current character output attribute.
-    attribute: i32,
+    pub attribute: i32,
     /// The cursor’s column.
-    cursor_column: i32,
+    pub cursor_column: i32,
     /// The cursor’s row.
-    cursor_row: i32,
+    pub cursor_row: i32,
     /// Whether the cursor is currently visible or not.
-    cursor_visible: bool,
+    pub cursor_visible: bool,
 }
 
 /// Colors for the UEFI console.

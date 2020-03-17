@@ -201,26 +201,26 @@ impl SystemTable<Runtime> {
 
 /// The actual UEFI system table
 #[repr(C)]
-struct SystemTableImpl {
-    header: Header,
+pub struct SystemTableImpl {
+    pub header: Header,
     /// Null-terminated string representing the firmware's vendor.
-    fw_vendor: *const Char16,
+    pub fw_vendor: *const Char16,
     /// Revision of the UEFI specification the firmware conforms to.
-    fw_revision: Revision,
-    stdin_handle: Handle,
-    stdin: *mut text::Input,
-    stdout_handle: Handle,
-    stdout: *mut text::Output<'static>,
-    stderr_handle: Handle,
-    stderr: *mut text::Output<'static>,
+    pub fw_revision: Revision,
+    pub stdin_handle: Handle,
+    pub stdin: *mut text::Input,
+    pub stdout_handle: Handle,
+    pub stdout: *mut text::Output<'static>,
+    pub stderr_handle: Handle,
+    pub stderr: *mut text::Output<'static>,
     /// Runtime services table.
-    runtime: &'static RuntimeServices,
+    pub runtime: &'static RuntimeServices,
     /// Boot services table.
-    boot: *const BootServices,
+    pub boot: *const BootServices,
     /// Number of entires in the configuration table.
-    nr_cfg: usize,
+    pub nr_cfg: usize,
     /// Pointer to beginning of the array.
-    cfg_table: *const cfg::ConfigTableEntry,
+    pub cfg_table: *const cfg::ConfigTableEntry,
 }
 
 impl<View: SystemTableView> super::Table for SystemTable<View> {

@@ -13,20 +13,20 @@ use core::ptr;
 /// even after the UEFI OS loader and OS have taken control of the platform.
 #[repr(C)]
 pub struct RuntimeServices {
-    header: Header,
-    get_time:
+    pub header: Header,
+    pub get_time:
         unsafe extern "efiapi" fn(time: *mut Time, capabilities: *mut TimeCapabilities) -> Status,
-    set_time: unsafe extern "efiapi" fn(time: &Time) -> Status,
+    pub set_time: unsafe extern "efiapi" fn(time: &Time) -> Status,
     // Skip some useless functions.
-    _pad: [usize; 2],
-    set_virtual_address_map: unsafe extern "efiapi" fn(
+    pub _pad: [usize; 2],
+    pub set_virtual_address_map: unsafe extern "efiapi" fn(
         map_size: usize,
         desc_size: usize,
         desc_version: u32,
         virtual_map: *mut MemoryDescriptor,
     ) -> Status,
-    _pad2: [usize; 5],
-    reset: unsafe extern "efiapi" fn(
+    pub _pad2: [usize; 5],
+    pub reset: unsafe extern "efiapi" fn(
         rt: ResetType,
 
         status: Status,
