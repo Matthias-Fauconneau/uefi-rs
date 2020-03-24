@@ -1,5 +1,5 @@
 //! File system support protocols.
-
+#![allow(missing_docs)]
 use super::file::{Directory, FileHandle, FileImpl};
 use crate::proto::Protocol;
 use crate::{unsafe_guid, Result, Status};
@@ -13,8 +13,8 @@ use core::ptr;
 #[unsafe_guid("964e5b22-6459-11d2-8e39-00a0c969723b")]
 #[derive(Protocol)]
 pub struct SimpleFileSystem {
-    revision: u64,
-    open_volume:
+    pub revision: u64,
+    pub open_volume:
         extern "efiapi" fn(this: &mut SimpleFileSystem, root: &mut *mut FileImpl) -> Status,
 }
 

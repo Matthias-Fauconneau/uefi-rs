@@ -1,5 +1,5 @@
 //! Loaded image protocol.
-
+#![allow(missing_docs)]
 use crate::{
     data_types::{CStr16, Char16},
     proto::Protocol,
@@ -13,27 +13,27 @@ use core::ffi::c_void;
 #[unsafe_guid("5b1b31a1-9562-11d2-8e3f-00a0c969723b")]
 #[derive(Protocol)]
 pub struct LoadedImage {
-    revision: u32,
-    parent_handle: Handle,
-    system_table: *const c_void,
+    pub revision: u32,
+    pub parent_handle: Handle,
+    pub system_table: *const c_void,
 
     // Source location of the image
-    device_handle: Handle,
-    _file_path: *const c_void, // TODO: not supported yet
-    _reserved: *const c_void,
+    pub device_handle: Handle,
+    pub _file_path: *const c_void, // TODO: not supported yet
+    pub _reserved: *const c_void,
 
     // Image load options
-    load_options_size: u32,
-    load_options: *const Char16,
+    pub load_options_size: u32,
+    pub load_options: *const Char16,
 
     // Location where image was loaded
-    image_base: usize,
-    image_size: u64,
-    image_code_type: MemoryType,
-    image_data_type: MemoryType,
+    pub image_base: usize,
+    pub image_size: u64,
+    pub image_code_type: MemoryType,
+    pub image_data_type: MemoryType,
     /// This is a callback that a loaded image can use to do cleanup. It is called by the
     /// UnloadImage boot service.
-    unload: extern "efiapi" fn(image_handle: Handle) -> Status,
+    pub unload: extern "efiapi" fn(image_handle: Handle) -> Status,
 }
 
 /// Errors that can be raised during parsing of the load options.

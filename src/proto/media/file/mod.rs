@@ -5,6 +5,7 @@
 //! Usually a file system implementation will return a "root" directory, representing
 //! `/` on that volume. With that directory, it is possible to enumerate and open
 //! all the other files on that volume.
+#![allow(missing_docs)]
 
 mod dir;
 mod info;
@@ -270,42 +271,42 @@ impl Drop for FileHandle {
 
 /// The function pointer table for the File protocol.
 #[repr(C)]
-pub(super) struct FileImpl {
-    revision: u64,
-    open: unsafe extern "efiapi" fn(
+pub struct FileImpl {
+    pub revision: u64,
+    pub open: unsafe extern "efiapi" fn(
         this: &mut FileImpl,
         new_handle: &mut *mut FileImpl,
         filename: *const Char16,
         open_mode: FileMode,
         attributes: FileAttribute,
     ) -> Status,
-    close: extern "efiapi" fn(this: &mut FileImpl) -> Status,
-    delete: extern "efiapi" fn(this: &mut FileImpl) -> Status,
-    read: unsafe extern "efiapi" fn(
+    pub close: extern "efiapi" fn(this: &mut FileImpl) -> Status,
+    pub delete: extern "efiapi" fn(this: &mut FileImpl) -> Status,
+    pub read: unsafe extern "efiapi" fn(
         this: &mut FileImpl,
         buffer_size: &mut usize,
         buffer: *mut u8,
     ) -> Status,
-    write: unsafe extern "efiapi" fn(
+    pub write: unsafe extern "efiapi" fn(
         this: &mut FileImpl,
         buffer_size: &mut usize,
         buffer: *const u8,
     ) -> Status,
-    get_position: extern "efiapi" fn(this: &mut FileImpl, position: &mut u64) -> Status,
-    set_position: extern "efiapi" fn(this: &mut FileImpl, position: u64) -> Status,
-    get_info: unsafe extern "efiapi" fn(
+    pub get_position: extern "efiapi" fn(this: &mut FileImpl, position: &mut u64) -> Status,
+    pub set_position: extern "efiapi" fn(this: &mut FileImpl, position: u64) -> Status,
+    pub get_info: unsafe extern "efiapi" fn(
         this: &mut FileImpl,
         information_type: &Guid,
         buffer_size: &mut usize,
         buffer: *mut u8,
     ) -> Status,
-    set_info: unsafe extern "efiapi" fn(
+    pub set_info: unsafe extern "efiapi" fn(
         this: &mut FileImpl,
         information_type: &Guid,
         buffer_size: usize,
         buffer: *const c_void,
     ) -> Status,
-    flush: extern "efiapi" fn(this: &mut FileImpl) -> Status,
+    pub flush: extern "efiapi" fn(this: &mut FileImpl) -> Status,
 }
 
 /// Disambiguates the file type. Returned by `File::into_type()`.
