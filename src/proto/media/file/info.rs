@@ -156,13 +156,13 @@ pub type FileInfo = NamedFileProtocolInfo<FileInfoHeader>;
 /// Header for generic file information
 #[repr(C)]
 pub struct FileInfoHeader {
-    size: u64,
-    file_size: u64,
-    physical_size: u64,
-    create_time: Time,
-    last_access_time: Time,
-    modification_time: Time,
-    attribute: FileAttribute,
+    pub size: u64,
+    pub file_size: u64,
+    pub physical_size: u64,
+    pub create_time: Time,
+    pub last_access_time: Time,
+    pub modification_time: Time,
+    pub attribute: FileAttribute,
 }
 
 impl FileInfo {
